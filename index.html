@@ -17,25 +17,56 @@
       @media print {
         @page {
           size: A4;
-          margin: 0;
+          margin: 0; /* Important: Remove default margins to fit the design */
         }
-        body {
-          background-color: white;
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
+        
+        html, body {
+          width: 210mm;
+          height: auto !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          background-color: white !important;
+          overflow: visible !important; /* Critical fix for white screen */
+          -webkit-print-color-adjust: exact !important; /* Force background colors */
+          print-color-adjust: exact !important;
         }
+
+        #root {
+          width: 100% !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          display: block !important;
+          overflow: visible !important;
+        }
+
+        /* Hide UI elements */
         .no-print {
           display: none !important;
         }
+
+        /* Force page breaks */
         .print-break-after {
           break-after: page;
+          page-break-after: always;
         }
+
+        /* Page Container Reset */
         .a4-page {
           box-shadow: none !important;
           margin: 0 !important;
           width: 100% !important;
           height: auto !important;
           min-height: 297mm;
+          border: none !important;
+          page-break-inside: avoid;
+          overflow: visible !important; /* Ensure content flowing outside doesn't get cut */
+          transform: none !important; /* Remove any scaling */
+        }
+        
+        /* Ensure text is black for readability unless specifically colored */
+        p, span, div {
+             -webkit-print-color-adjust: exact !important;
+             print-color-adjust: exact !important;
         }
       }
       
@@ -50,7 +81,8 @@
         display: flex;
         flex-direction: column;
         position: relative;
-        overflow: hidden;
+        /* Overflow hidden on screen to look neat, visible on print to capture everything */
+        overflow: hidden; 
       }
     </style>
   <script type="importmap">
@@ -60,12 +92,15 @@
     "recharts": "https://aistudiocdn.com/recharts@^3.5.1",
     "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
     "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0"
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "vite": "https://aistudiocdn.com/vite@^7.2.6",
+    "@vitejs/plugin-react": "https://aistudiocdn.com/@vitejs/plugin-react@^5.1.1"
   }
 }
 </script>
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
   </body>
 </html>

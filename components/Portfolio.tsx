@@ -46,7 +46,6 @@ const CoverPage = () => (
           <span className="text-3xl block mt-4 font-light">상속·증여·절세 종합설계</span>
         </h1>
         <div className="w-24 h-1 bg-emerald-500 mx-auto my-8"></div>
-        <h3 className="text-2xl font-light">예시: OO목장 대표님 귀하</h3>
       </div>
       
       <div className="mt-20 text-left bg-white/10 p-6 rounded-lg border border-white/20">
