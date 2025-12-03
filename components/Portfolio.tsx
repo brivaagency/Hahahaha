@@ -13,571 +13,755 @@ import {
   CheckCircle2,
   Phone,
   Briefcase,
-  ChevronDown
+  ChevronDown,
+  Calendar,
+  TrendingUp,
+  Calculator,
+  Scale,
+  FileText,
+  Landmark,
+  Lock,
+  ArrowDown
 } from 'lucide-react';
 
-// Reusable Page Wrapper
+// --- Design System Components ---
+
+// Premium Page Wrapper with Watermark
 const A4Page: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "" }) => (
-  <div className={`a4-page print-break-after ${className}`}>
+  <div className={`a4-page print-break-after relative bg-white ${className}`}>
+    {/* Watermark */}
+    <div className="absolute inset-0 pointer-events-none opacity-[0.03] flex items-center justify-center overflow-hidden">
+       <div className="transform -rotate-45 text-9xl font-black text-stone-900 whitespace-nowrap">
+         DAIRY SUCCESSION PLAN
+       </div>
+    </div>
+    
     {children}
-    {/* Footer for every page */}
-    <div className="absolute bottom-4 left-0 w-full px-12 text-xs text-gray-400 flex justify-between items-center print:text-black">
-      <span>나누리사업단 | {PLANNER.name} 플래너</span>
-      <span>{PLANNER.phone}</span>
+    
+    {/* Professional Footer */}
+    <div className="absolute bottom-6 left-0 w-full px-10 flex justify-between items-end">
+      <div className="text-[10px] text-stone-400 font-light tracking-wider">
+        CONFIDENTIAL & PROPRIETARY<br/>
+        Copyright © {new Date().getFullYear()} {PLANNER.company}. All rights reserved.
+      </div>
+      <div className="text-right">
+        <div className="text-xs font-bold text-stone-600 tracking-widest uppercase mb-1">나누리사업단</div>
+        <div className="text-[10px] text-emerald-600 flex items-center justify-end gap-1">
+          <span>Consultant. {PLANNER.name}</span>
+          <span className="w-px h-2 bg-emerald-200"></span>
+          <span>{PLANNER.phone}</span>
+        </div>
+      </div>
     </div>
   </div>
 );
 
-// Page 1: Cover
-const CoverPage = () => (
-  <A4Page className="justify-center items-center bg-emerald-900 text-white relative">
-    <div className="absolute inset-0 opacity-20">
-      <img 
-        src="https://picsum.photos/1200/1600?grayscale" 
-        alt="Farm Background" 
-        className="w-full h-full object-cover" 
-      />
+// Section Header Component
+const SectionHeader = ({ number, title, subtitle }: { number: string, title: string, subtitle?: string }) => (
+  <div className="flex items-end gap-4 mb-8 border-b-2 border-emerald-900/10 pb-4">
+    <div className="text-5xl font-black text-emerald-100 leading-none -mb-1">{number}</div>
+    <div className="flex-1">
+      <h2 className="text-2xl font-bold text-stone-800 tracking-tight">{title}</h2>
+      {subtitle && <p className="text-sm text-emerald-700 font-medium mt-1">{subtitle}</p>}
     </div>
-    <div className="z-10 text-center space-y-8 p-10 border-4 border-emerald-700/50 bg-emerald-900/80 backdrop-blur-sm rounded-xl max-w-2xl">
-      <div className="space-y-4">
-        <h2 className="text-xl font-medium tracking-widest text-emerald-300 uppercase">Proposal</h2>
-        <h1 className="text-5xl font-bold leading-tight">
-          젖소농가 가업승계<br/>
-          <span className="text-3xl block mt-4 font-light">상속·증여·절세 종합설계</span>
-        </h1>
-        <div className="w-24 h-1 bg-emerald-500 mx-auto my-8"></div>
+  </div>
+);
+
+// Card Component
+const Card = ({ children, className = "", title, icon: Icon }: { children?: React.ReactNode, className?: string, title?: string, icon?: any }) => (
+  <div className={`bg-white rounded-xl border border-stone-200 shadow-sm p-5 ${className}`}>
+    {title && (
+      <div className="flex items-center gap-2 mb-4 border-b border-stone-100 pb-2">
+        {Icon && <Icon size={18} className="text-emerald-600" />}
+        <h3 className="font-bold text-stone-800 text-lg">{title}</h3>
       </div>
+    )}
+    {children}
+  </div>
+);
+
+// --- Pages ---
+
+// Page 1: Premium Cover
+const CoverPage = () => (
+  <A4Page className="p-0 overflow-hidden relative bg-stone-900">
+    {/* Background Image with Gradient Overlay */}
+    <div className="absolute inset-0 z-0">
+      <img 
+        src="https://images.unsplash.com/photo-1500595046743-cd271d694d30?q=80&w=2074&auto=format&fit=crop" 
+        alt="Farm" 
+        className="w-full h-full object-cover opacity-40 grayscale" 
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-900/80 to-transparent"></div>
+    </div>
+
+    {/* Content Container */}
+    <div className="relative z-10 h-full flex flex-col justify-between p-16">
       
-      <div className="mt-20 text-left bg-white/10 p-6 rounded-lg border border-white/20">
-        <p className="text-sm text-emerald-200 mb-1">Presented by</p>
-        <p className="text-xl font-bold">{PLANNER.company}</p>
-        <p className="text-lg">{PLANNER.position} <span className="font-bold">{PLANNER.name}</span></p>
-        <p className="text-md mt-2 flex items-center gap-2">
-          <Phone className="w-4 h-4" /> {PLANNER.phone}
+      {/* Top Badge */}
+      <div className="flex justify-between items-start">
+        <div className="border border-white/20 bg-white/5 backdrop-blur-md px-4 py-2 rounded text-xs text-white/80 tracking-widest uppercase font-light">
+          Strictly Confidential
+        </div>
+        <div className="text-emerald-400 font-black text-2xl tracking-tighter">
+          NANURI<span className="text-white">PLAN</span>
+        </div>
+      </div>
+
+      {/* Main Title Area */}
+      <div className="space-y-6">
+        <div className="w-20 h-1 bg-emerald-500 mb-8"></div>
+        <h2 className="text-2xl text-emerald-300 font-medium tracking-wide">Dairy Farm Succession Strategy</h2>
+        <h1 className="text-6xl font-black text-white leading-tight">
+          젖소농가 가업승계<br/>
+          <span className="text-white/90">종합 솔루션 제안서</span>
+        </h1>
+        <p className="text-lg text-stone-300 max-w-xl font-light leading-relaxed pt-4 border-t border-white/10">
+          대한민국 낙농업의 미래를 지키는 힘.<br/>
+          상속세 재원 마련부터 지분 구조 설계까지, <br/>
+          <strong>가장 완벽한 승계 로드맵</strong>을 제안합니다.
         </p>
+      </div>
+
+      {/* Presenter Info */}
+      <div className="flex items-end justify-end border-t border-white/20 pt-8">
+        <div className="text-right">
+          <p className="text-xs text-emerald-400 uppercase tracking-widest mb-2">Prepared By</p>
+          <p className="text-xl font-bold text-white">{PLANNER.name} 플래너</p>
+          <p className="text-sm text-stone-400">{PLANNER.company} | 자산관리 전문가</p>
+          <div className="mt-3 inline-flex items-center gap-2 bg-white/10 px-3 py-1 rounded-full text-xs text-white">
+            <Phone size={12} /> {PLANNER.phone}
+          </div>
+        </div>
       </div>
     </div>
   </A4Page>
 );
 
-// Page 2: Diagnosis
+// Page 2: Diagnosis (Enhanced)
 const DiagnosisPage = () => (
   <A4Page>
-    <h2 className="text-3xl font-bold text-emerald-900 mb-8 border-b-2 border-emerald-100 pb-4">
-      01. 농장 현황 진단 및 고민
-    </h2>
+    <SectionHeader number="01" title="농장 현황 진단" subtitle="Current Status & Risk Analysis" />
 
-    <div className="grid grid-cols-2 gap-8 mb-8">
-      {/* Family */}
-      <div className="bg-stone-50 p-6 rounded-xl border border-stone-200">
-        <h3 className="flex items-center gap-2 text-xl font-bold text-stone-800 mb-4">
-          <Users className="text-emerald-600" /> 가족 구성 현황
-        </h3>
-        <ul className="space-y-3">
-          <li className="flex justify-between border-b border-stone-200 pb-2">
-            <span className="font-medium text-gray-600">아버지 (농장주)</span>
-            <span className="font-bold">62세</span>
-          </li>
-          <li className="flex justify-between border-b border-stone-200 pb-2">
-            <span className="font-medium text-gray-600">어머니 (배우자)</span>
-            <span className="font-bold">60세</span>
-          </li>
-          <li className="flex justify-between border-b border-stone-200 pb-2 bg-emerald-50/50 -mx-2 px-2 rounded">
-            <span className="font-medium text-emerald-800">아들 (후계농)</span>
-            <div className="text-right">
-              <span className="font-bold block">35세</span>
-              <span className="text-xs text-emerald-600">농장 경영 참여</span>
+    <div className="grid grid-cols-12 gap-8 h-[calc(100%-8rem)]">
+      
+      {/* Left Column: Family & Assets (7 cols) */}
+      <div className="col-span-7 flex flex-col gap-6">
+        
+        {/* Family Structure Card */}
+        <Card title="가족 구성 및 승계 니즈" icon={Users}>
+          <div className="flex items-center justify-between gap-4">
+             {/* Parents */}
+             <div className="bg-stone-50 rounded-lg p-4 flex-1 text-center border border-stone-100">
+               <div className="text-xs text-stone-500 mb-1">Current Owner</div>
+               <div className="font-bold text-stone-800 text-lg">대표님 (62세)</div>
+               <div className="text-sm text-stone-600">배우자 (60세)</div>
+             </div>
+             <ArrowRight className="text-stone-300" />
+             {/* Successor */}
+             <div className="bg-emerald-50 rounded-lg p-4 flex-1 text-center border border-emerald-100 ring-2 ring-emerald-500/20">
+               <div className="text-xs text-emerald-600 font-bold mb-1">Successor (후계자)</div>
+               <div className="font-bold text-emerald-900 text-lg">아들 (35세)</div>
+               <div className="text-xs text-emerald-700 bg-emerald-200/50 inline-block px-2 py-0.5 rounded mt-1">경영 승계 희망</div>
+             </div>
+             {/* Non-Successor */}
+             <div className="bg-stone-50 rounded-lg p-4 flex-1 text-center border border-stone-100 opacity-80">
+               <div className="text-xs text-stone-500 mb-1">Beneficiary</div>
+               <div className="font-bold text-stone-700 text-lg">딸 (32세)</div>
+               <div className="text-xs text-stone-500 mt-1">현금 자산 희망</div>
+             </div>
+          </div>
+        </Card>
+
+        {/* Financial Status Card */}
+        <Card title="추정 재무상태표 (Balance Sheet)" icon={Scale} className="flex-1">
+          <div className="flex gap-4 h-full items-center">
+            {/* Increased chart width from w-1/3 to w-5/12 for better legend spacing */}
+            <div className="w-5/12">
+              <AssetPieChart />
             </div>
-          </li>
-          <li className="flex justify-between pt-2">
-            <span className="font-medium text-gray-600">딸 (직장인)</span>
-            <div className="text-right">
-              <span className="font-bold block">32세</span>
-              <span className="text-xs text-gray-500">타지역 거주</span>
+            {/* Adjusted text width */}
+            <div className="w-7/12 space-y-4">
+               <div className="flex justify-between items-center border-b border-stone-200 pb-2">
+                 <span className="font-bold text-stone-600">부동산 (토지/축사)</span>
+                 <span className="font-bold text-stone-900">12.0 억</span>
+               </div>
+               <div className="flex justify-between items-center border-b border-stone-200 pb-2">
+                 <span className="font-bold text-stone-600">동산 (생물/기계)</span>
+                 <span className="font-bold text-stone-900">3.0 억</span>
+               </div>
+               <div className="flex justify-between items-center border-b border-stone-200 pb-2">
+                 <span className="font-bold text-stone-600">금융 자산</span>
+                 <span className="font-bold text-stone-900">3.0 억</span>
+               </div>
+               <div className="flex justify-between items-center bg-stone-100 p-3 rounded text-sm text-stone-500">
+                 <span>(-) 부채 (시설자금 등)</span>
+                 <span>(3.0) 억</span>
+               </div>
+               <div className="flex justify-between items-center bg-emerald-600 text-white p-4 rounded shadow-md">
+                 <span className="font-bold">순자산 (Net Asset)</span>
+                 <span className="font-black text-xl">15.0 억</span>
+               </div>
             </div>
-          </li>
-        </ul>
+          </div>
+        </Card>
       </div>
 
-      {/* Assets */}
-      <div className="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col justify-center">
-        <h3 className="flex items-center gap-2 text-xl font-bold text-stone-800 mb-4">
-          <Tractor className="text-emerald-600" /> 자산 현황 (추정)
-        </h3>
-        <AssetPieChart />
-      </div>
-    </div>
+      {/* Right Column: Risks (5 cols) */}
+      <div className="col-span-5 flex flex-col h-full">
+         <Card title="핵심 리스크 진단" icon={AlertTriangle} className="h-full bg-red-50/30 border-red-100">
+            <div className="space-y-8">
+              
+              {/* Risk 1 */}
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-bold text-red-900 text-sm">유동성 리스크 (Tax Liquidity)</span>
+                  <span className="font-bold text-red-600">심각</span>
+                </div>
+                <div className="w-full bg-red-100 rounded-full h-2">
+                  <div className="bg-red-500 h-2 rounded-full w-[90%]"></div>
+                </div>
+                <p className="text-xs text-stone-600 mt-2 leading-relaxed">
+                  예상 상속세 재원 부족으로 인해 상속 발생 시 <strong className="text-red-700 underline">핵심 생산기반(토지/소) 매각 가능성</strong> 매우 높음.
+                </p>
+              </div>
 
-    {/* Details Table */}
-    <div className="mb-8">
-       <table className="w-full text-sm text-left text-gray-600 border border-stone-200">
-         <thead className="bg-stone-100 text-stone-800 font-bold">
-           <tr>
-             <th className="px-4 py-2">구분</th>
-             <th className="px-4 py-2">내역 상세</th>
-             <th className="px-4 py-2 text-right">평가액</th>
-           </tr>
-         </thead>
-         <tbody className="divide-y divide-stone-100">
-            <tr>
-              <td className="px-4 py-2 font-medium">부동산/시설</td>
-              <td className="px-4 py-2">목장 부지, 축사, 사료창고</td>
-              <td className="px-4 py-2 text-right">12억</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 font-medium">가축/기계</td>
-              <td className="px-4 py-2">젖소(80두), 육성우, 착유기 등</td>
-              <td className="px-4 py-2 text-right">3억</td>
-            </tr>
-            <tr>
-              <td className="px-4 py-2 font-medium">금융/기타</td>
-              <td className="px-4 py-2">예금, 현금, 농업법인 지분</td>
-              <td className="px-4 py-2 text-right">3억</td>
-            </tr>
-            <tr className="bg-emerald-50 font-bold text-emerald-900">
-              <td colSpan={2} className="px-4 py-2">순자산 (부채 3억 차감 후)</td>
-              <td className="px-4 py-2 text-right">15억</td>
-            </tr>
-         </tbody>
-       </table>
-    </div>
+              {/* Risk 2 */}
+              <div>
+                <div className="flex justify-between mb-2">
+                  <span className="font-bold text-amber-800 text-sm">상속 분쟁 가능성 (Legal Dispute)</span>
+                  <span className="font-bold text-amber-600">주의</span>
+                </div>
+                <div className="w-full bg-amber-100 rounded-full h-2">
+                  <div className="bg-amber-500 h-2 rounded-full w-[60%]"></div>
+                </div>
+                <p className="text-xs text-stone-600 mt-2 leading-relaxed">
+                  부동산 중심의 자산 구조로 인해 비후계자(딸)에게 분배할 현금이 부족하여, <strong className="text-amber-800">유류분 반환 청구 소송</strong> 우려.
+                </p>
+              </div>
 
-    {/* Risks */}
-    <div className="bg-red-50 p-6 rounded-xl border border-red-100">
-      <h3 className="flex items-center gap-2 text-xl font-bold text-red-800 mb-4">
-        <AlertTriangle /> 대표님의 고민 및 예상 리스크
-      </h3>
-      <div className="grid grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <p className="font-bold text-stone-700">대표님의 고민</p>
-          <ul className="list-disc list-inside text-stone-600 space-y-1 text-sm">
-            <li>아들에게 온전한 농장 승계 희망</li>
-            <li>딸에게도 섭섭하지 않게 챙겨주고 싶음</li>
-            <li>과도한 상속세로 인한 농장 매각 우려</li>
-          </ul>
-        </div>
-        <div className="space-y-2">
-          <p className="font-bold text-red-700">발생 가능 리스크</p>
-          <ul className="list-disc list-inside text-red-600 space-y-1 text-sm">
-            <li>자산 15억: 상속세 발생 구간 진입</li>
-            <li>현금 부족: <span className="underline decoration-red-300">세금 납부 위해 토지/소 급매 위험</span></li>
-            <li>형제 갈등: 딸의 유류분 청구 등 분쟁 소지</li>
-          </ul>
-        </div>
+              <div className="bg-white p-4 rounded border border-red-200 shadow-sm mt-8">
+                 <h4 className="font-bold text-red-800 mb-2 flex items-center gap-2">
+                   <Target size={16}/> 진단 결론
+                 </h4>
+                 <ul className="list-disc list-inside text-sm text-stone-700 space-y-1">
+                   <li>현재 자산 규모 상속세 과세 구간 진입</li>
+                   <li><strong>사전 증여</strong>를 통한 과세 표준 분산 필요</li>
+                   <li><strong>납세 재원(현금)</strong>의 긴급 확보 플랜 시급</li>
+                 </ul>
+              </div>
+
+            </div>
+         </Card>
       </div>
+
     </div>
   </A4Page>
 );
 
-// Page 3: Goals - REDESIGNED WITH RELATIVE/ABSOLUTE CONNECTIONS FOR PERFECTION
+// Page 3: Goals (Enhanced)
 const GoalsPage = () => (
   <A4Page>
-    <h2 className="text-3xl font-bold text-emerald-900 mb-8 border-b-2 border-emerald-100 pb-4">
-      02. 설계 목표 및 전체 구조
-    </h2>
+    <SectionHeader number="02" title="승계 목표 및 구조" subtitle="Strategic Blueprint" />
 
+    {/* 3 Core Goals */}
     <div className="grid grid-cols-3 gap-6 mb-12">
-      <div className="bg-emerald-50 p-6 rounded-xl border border-emerald-200 flex flex-col items-center text-center">
-        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-emerald-600 mb-3 shadow-sm">
-          <Tractor size={24} />
+      {[
+        { 
+          icon: Tractor, 
+          title: "완벽한 가업 승계", 
+          desc: "생산 기반(농지/시설) 100%\n아들 단독 승계", 
+          color: "emerald" 
+        },
+        { 
+          icon: Scale, 
+          title: "공정한 자산 분배", 
+          desc: "비후계자(딸)에게 납득할 만한\n현금 자산 보상", 
+          color: "blue" 
+        },
+        { 
+          icon: ShieldCheck, 
+          title: "조세 리스크 제로", 
+          desc: "상속세 재원 완비 및\n절세 전략 실행", 
+          color: "stone" 
+        }
+      ].map((item, idx) => (
+        <div key={idx} className={`bg-${item.color}-50 p-6 rounded-xl border border-${item.color}-200 flex flex-col items-center text-center shadow-sm`}>
+          <div className={`w-14 h-14 bg-white rounded-full flex items-center justify-center text-${item.color}-600 mb-4 shadow-md`}>
+            <item.icon size={28} />
+          </div>
+          <h3 className={`font-bold text-lg text-${item.color}-900 mb-2`}>{item.title}</h3>
+          <p className="text-sm text-stone-600 whitespace-pre-line leading-relaxed">{item.desc}</p>
         </div>
-        <h3 className="font-bold text-lg text-emerald-900 mb-2">Goal 1. 가업 승계</h3>
-        <p className="text-xs text-stone-600">
-          아들에게 농장 자산을<br/>
-          100% 안정적 승계
-        </p>
-      </div>
-
-      <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 flex flex-col items-center text-center">
-        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600 mb-3 shadow-sm">
-          <Coins size={24} />
-        </div>
-        <h3 className="font-bold text-lg text-blue-900 mb-2">Goal 2. 형평성 상속</h3>
-        <p className="text-xs text-stone-600">
-          딸에게 명확한<br/>
-          현금 자산 상속
-        </p>
-      </div>
-
-      <div className="bg-amber-50 p-6 rounded-xl border border-amber-200 flex flex-col items-center text-center">
-        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-amber-600 mb-3 shadow-sm">
-          <ShieldCheck size={24} />
-        </div>
-        <h3 className="font-bold text-lg text-amber-900 mb-2">Goal 3. 세금 재원</h3>
-        <p className="text-xs text-stone-600">
-          상속세 납부 재원<br/>
-          사전 준비 및 절세
-        </p>
-      </div>
+      ))}
     </div>
 
-    {/* Tree Diagram - Robust Structure */}
-    <div className="bg-white border-2 border-stone-200 rounded-2xl p-8 pb-12 flex flex-col items-center">
-      <h3 className="text-xl font-bold text-center mb-8 bg-stone-100 inline-block px-6 py-2 rounded-full">
-        전체 승계 구조도
-      </h3>
-      
-      {/* 1. Top Node */}
-      <div className="z-10 mb-0">
-        <div className="w-36 h-36 bg-stone-800 text-white rounded-full flex flex-col items-center justify-center shadow-xl border-4 border-stone-200">
-          <span className="text-2xl font-bold">대표님</span>
-          <span className="text-xs text-stone-300 mt-1">(자산 원천)</span>
-        </div>
-      </div>
-
-      {/* Connector */}
-      <div className="h-8 w-1 bg-stone-300"></div>
-
-      {/* 2. Middle Node */}
-      <div className="z-10 mb-0">
-         <div className="bg-white border-2 border-stone-400 text-stone-700 px-8 py-3 rounded-full text-base font-bold shadow-md">
-           솔루션 (보험 / 증여 / 법인)
-         </div>
-      </div>
-
-      {/* Connector */}
-      <div className="h-6 w-1 bg-stone-300"></div>
-
-      {/* 3. Branching Area */}
-      {/* This container uses absolute positioning for the 'bracket' line to ensure it perfectly hits the centers of the children columns */}
-      <div className="relative w-full max-w-3xl">
+    {/* Master Plan Diagram */}
+    <Card title="Master Succession Plan" className="pb-12 bg-gradient-to-b from-white to-stone-50">
+      <div className="flex flex-col items-center w-full max-w-4xl mx-auto">
         
-        {/* The Bracket Line: connects left 25% to right 75% (centers of the two cols) */}
-        <div className="absolute top-0 left-1/4 right-1/4 h-8 border-t-2 border-l-2 border-r-2 border-stone-300 rounded-t-xl z-0"></div>
-        
-        {/* Grid for Children */}
-        <div className="grid grid-cols-2 gap-8 pt-8 w-full">
-          
-          {/* Son Column */}
-          <div className="flex flex-col items-center relative z-10">
-             <div className="text-stone-300 -mt-2 mb-1">
-               <ChevronDown size={24} />
-             </div>
-             <div className="bg-emerald-50 p-6 rounded-xl border border-emerald-200 shadow-sm text-center w-full h-full hover:bg-emerald-100 transition-colors">
-                <span className="font-bold text-xl text-emerald-900 mb-3 block">아들 (후계자)</span>
-                <div className="bg-white p-3 rounded-lg border border-emerald-100 mb-3 flex flex-col items-center justify-center gap-1">
-                  <Tractor className="text-emerald-600" size={28} />
-                  <div className="font-bold text-base text-stone-800">농장 (토지/시설)</div>
-                </div>
-                <div className="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full">
-                  가업 승계 & 경영권
-                </div>
-             </div>
+        {/* Level 1: Source */}
+        <div className="bg-stone-800 text-white px-10 py-4 rounded-full shadow-xl border-4 border-stone-200 z-10">
+          <div className="text-center">
+            <span className="block text-xs text-stone-400 font-bold tracking-widest uppercase">Asset Source</span>
+            <span className="block text-xl font-bold">대표님 (부모님)</span>
           </div>
+        </div>
 
-          {/* Daughter Column */}
-          <div className="flex flex-col items-center relative z-10">
-             <div className="text-stone-300 -mt-2 mb-1">
-               <ChevronDown size={24} />
-             </div>
-             <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 shadow-sm text-center w-full h-full hover:bg-blue-100 transition-colors">
-                <span className="font-bold text-xl text-blue-900 mb-3 block">딸 (비경영)</span>
-                <div className="bg-white p-3 rounded-lg border border-blue-100 mb-3 flex flex-col items-center justify-center gap-1">
-                  <Coins className="text-blue-600" size={28} />
-                  <div className="font-bold text-base text-stone-800">현금 자산 (보험금)</div>
-                </div>
-                <div className="inline-block bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">
-                  경제적 형평성 확보
-                </div>
-             </div>
-          </div>
+        {/* Connector */}
+        <div className="h-10 w-0.5 bg-stone-300"></div>
+
+        {/* Level 2: Vehicles */}
+        <div className="grid grid-cols-3 gap-4 w-full px-8">
+           <div className="bg-white border-2 border-emerald-500 rounded-lg p-3 text-center shadow-md">
+             <div className="text-emerald-700 font-bold text-sm mb-1">Vehicle 1</div>
+             <div className="font-black text-stone-800">증여세 과세특례</div>
+           </div>
+           <div className="bg-white border-2 border-stone-400 rounded-lg p-3 text-center shadow-md">
+             <div className="text-stone-600 font-bold text-sm mb-1">Vehicle 2</div>
+             <div className="font-black text-stone-800">농업법인 전환</div>
+           </div>
+           <div className="bg-white border-2 border-blue-500 rounded-lg p-3 text-center shadow-md">
+             <div className="text-blue-700 font-bold text-sm mb-1">Vehicle 3</div>
+             <div className="font-black text-stone-800">종신보험 플랜</div>
+           </div>
+        </div>
+
+        {/* Connector Complex */}
+        <div className="relative w-full h-12 mt-2">
+           <div className="absolute left-1/2 -translate-x-1/2 h-full w-0.5 bg-stone-300"></div>
+           <div className="absolute top-1/2 left-[20%] right-[20%] h-0.5 bg-stone-300"></div>
+           <div className="absolute top-1/2 left-[20%] h-6 w-0.5 bg-stone-300"></div>
+           <div className="absolute top-1/2 right-[20%] h-6 w-0.5 bg-stone-300"></div>
+        </div>
+
+        {/* Level 3: Outcomes */}
+        <div className="grid grid-cols-2 gap-16 w-full px-12">
+           
+           {/* Outcome 1: Son */}
+           <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-6 relative group hover:shadow-lg transition-shadow">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+                Primary Goal
+              </div>
+              <h4 className="text-center font-bold text-xl text-emerald-900 mb-4">아들 (후계자)</h4>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-emerald-600"/>
+                  <span className="font-bold text-stone-700">농장 실물 자산 승계</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-emerald-600"/>
+                  <span className="font-bold text-stone-700">법인 경영권 (지분)</span>
+                </li>
+                 <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-emerald-600"/>
+                  <span className="font-bold text-stone-700">상속세 납부 재원</span>
+                </li>
+              </ul>
+           </div>
+
+           {/* Outcome 2: Daughter */}
+           <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 relative group hover:shadow-lg transition-shadow">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                Equity Goal
+              </div>
+              <h4 className="text-center font-bold text-xl text-blue-900 mb-4">딸 (비후계자)</h4>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-blue-600"/>
+                  <span className="font-bold text-stone-700">현금 자산 (보험금)</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-blue-600"/>
+                  <span className="font-bold text-stone-700">법인 배당권 (우선주)</span>
+                </li>
+                 <li className="flex items-center gap-2">
+                  <CheckCircle2 size={16} className="text-blue-600"/>
+                  <span className="font-bold text-stone-700">유류분 이슈 해소</span>
+                </li>
+              </ul>
+           </div>
 
         </div>
+
       </div>
-    </div>
+    </Card>
   </A4Page>
 );
 
-// Page 4: Solution 1
+// Page 4: Solution 1 (Insurance) - High Quality Visuals
 const Solution1Page = () => (
   <A4Page>
-    <div className="flex items-center gap-4 mb-8 border-b-2 border-emerald-100 pb-4">
-      <h2 className="text-3xl font-bold text-emerald-900">03. 1차 솔루션</h2>
-      <span className="bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm font-bold">종신보험 플랜</span>
-    </div>
+    <SectionHeader number="03" title="유동성 확보 플랜" subtitle="Solution 1: Life Insurance Strategy" />
 
     <div className="space-y-8">
-      {/* Concept */}
-      <div className="bg-stone-50 p-6 rounded-xl">
-        <h3 className="text-lg font-bold text-stone-800 mb-3">💡 기본 컨셉</h3>
-        <p className="text-stone-600 leading-relaxed">
-          대표님 명의의 종신보험을 활용하여 <strong>사망 시점에 즉시 현금(유동성)을 공급</strong>합니다. 
-          이 현금은 아들에게는 상속세 납부 재원이 되고, 딸에게는 공평한 상속분이 됩니다.
-        </p>
-      </div>
-
-      {/* Needs */}
-      <div className="grid grid-cols-2 gap-6">
-        <div className="border border-stone-200 rounded-xl p-5">
-          <h4 className="font-bold text-stone-700 mb-2 flex items-center gap-2">
-            <Target size={18} /> 필요 자금 추정
-          </h4>
-          <ul className="space-y-2 text-sm text-stone-600">
-            <li className="flex justify-between">
-              <span>아들 (상속세/운영비)</span>
-              <span className="font-bold text-stone-900">약 2억</span>
-            </li>
-            <li className="flex justify-between">
-              <span>딸 (현금 상속분)</span>
-              <span className="font-bold text-stone-900">약 3억</span>
-            </li>
-            <li className="flex justify-between pt-2 border-t border-stone-200 mt-2">
-              <span className="font-bold text-emerald-700">총 필요 보험금</span>
-              <span className="font-bold text-emerald-700 text-lg">5억</span>
-            </li>
-          </ul>
-        </div>
-
-        <div className="border border-emerald-200 bg-emerald-50 rounded-xl p-5">
-           <h4 className="font-bold text-emerald-800 mb-2 flex items-center gap-2">
-            <CheckCircle2 size={18} /> 설계 구조 예시
-          </h4>
-          <ul className="space-y-2 text-sm text-emerald-700">
-            <li><strong>피보험자:</strong> 대표님 (62세)</li>
-            <li><strong>상품종류:</strong> 종신보험</li>
-            <li><strong>사망보험금:</strong> 5억원</li>
-            <li><strong>납입기간:</strong> 10년납 또는 15년납</li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Diagram */}
-      <div className="mt-8">
-        <h3 className="text-lg font-bold text-stone-800 mb-4 text-center">자금 흐름도 (Flow)</h3>
-        <div className="flex flex-col items-center">
-          
-          <div className="w-64 bg-stone-800 text-white p-4 rounded-lg text-center shadow-md z-10 relative">
-            <div className="font-bold text-lg">대표님 유고 시</div>
-            <div className="text-sm opacity-80">사망보험금 5억 발생</div>
-          </div>
-          
-          {/* Connector Down */}
-          <div className="h-8 w-1 bg-emerald-300"></div>
-          
-          <div className="relative w-full max-w-2xl">
-             {/* Fork Line: Left 25% to Right 75% */}
-             <div className="absolute top-0 left-1/4 right-1/4 h-4 border-t-2 border-l-2 border-r-2 border-emerald-300 rounded-t-xl"></div>
-             
-             <div className="grid grid-cols-2 gap-8 pt-4 w-full">
-                {/* Son Flow */}
-                <div className="flex flex-col items-center">
-                   <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-emerald-300 mb-1"></div>
-                   <div className="bg-white border-2 border-emerald-500 p-5 rounded-xl text-center w-full shadow-sm">
-                      <div className="font-bold text-xl text-emerald-800 mb-1">아들</div>
-                      <div className="text-2xl font-black text-emerald-600 mb-2">2억</div>
-                      <div className="text-xs bg-emerald-100 text-emerald-800 px-2 py-1 rounded inline-block">
-                        상속세 납부 & 운영자금
-                      </div>
-                    </div>
-                </div>
-
-                {/* Daughter Flow */}
-                <div className="flex flex-col items-center">
-                   <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-emerald-300 mb-1"></div>
-                   <div className="bg-white border-2 border-blue-500 p-5 rounded-xl text-center w-full shadow-sm">
-                      <div className="font-bold text-xl text-blue-800 mb-1">딸</div>
-                      <div className="text-2xl font-black text-blue-600 mb-2">3억</div>
-                      <div className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded inline-block">
-                        현금 상속 (갈등 해소)
-                      </div>
-                    </div>
-                </div>
+      
+      {/* Visual Concept */}
+      <div className="grid grid-cols-2 gap-8">
+        <div className="space-y-4">
+           <h3 className="font-bold text-xl text-stone-800">
+             <span className="text-emerald-600">Why?</span> 왜 종신보험인가?
+           </h3>
+           <p className="text-stone-600 leading-relaxed text-justify">
+             부동산 비중이 80% 이상인 농가 자산 특성상, 상속 발생 시 세금 납부를 위한 <strong>'즉각적인 현금(Instant Cash)'</strong>이 절대적으로 부족합니다. 
+             종신보험은 사망과 동시에 확정된 현금을 공급하여 자산 매각을 막는 유일한 금융 솔루션입니다.
+           </p>
+           
+           <div className="bg-stone-100 p-4 rounded-lg mt-4 border border-stone-200">
+             <div className="text-sm font-bold text-stone-700 mb-2">필요 자금 분석</div>
+             <div className="flex justify-between text-sm mb-1">
+               <span>예상 상속세</span>
+               <span className="font-bold">2.0 억</span>
              </div>
-          </div>
+             <div className="flex justify-between text-sm mb-1">
+               <span>자녀 형평성 자금</span>
+               <span className="font-bold">3.0 억</span>
+             </div>
+             <div className="w-full h-px bg-stone-300 my-2"></div>
+             <div className="flex justify-between font-black text-emerald-700 text-lg">
+               <span>총 필요 보험금</span>
+               <span>5.0 억</span>
+             </div>
+           </div>
+        </div>
 
+        {/* Graph Simulation */}
+        <div className="bg-white border border-stone-200 rounded-xl p-6 shadow-sm">
+           <h4 className="font-bold text-stone-800 mb-6 text-center">상속 재원 마련 방법 비교</h4>
+           <div className="flex justify-around items-end h-48 pb-2 border-b border-stone-300 gap-8 px-4">
+              {/* Option A */}
+              <div className="w-24 flex flex-col items-center gap-2 group">
+                <div className="text-xs text-center text-stone-500 opacity-0 group-hover:opacity-100 transition-opacity">자산 매각 손실 발생</div>
+                <div className="w-full bg-red-200 h-32 rounded-t-lg relative flex items-end justify-center overflow-hidden border border-red-300">
+                  <div className="absolute top-2 text-red-800 font-bold text-xs">부동산 매각</div>
+                  <div className="mb-2 text-red-900 font-bold">손해</div>
+                </div>
+                <div className="text-xs font-bold text-stone-600">부동산 급매</div>
+              </div>
+
+              {/* Option B */}
+              <div className="w-24 flex flex-col items-center gap-2 group">
+                 <div className="text-xs text-center text-stone-500 opacity-0 group-hover:opacity-100 transition-opacity">매월 이자 부담</div>
+                 <div className="w-full bg-stone-200 h-24 rounded-t-lg relative flex items-end justify-center border border-stone-300">
+                   <div className="mb-2 text-stone-600 font-bold">대출</div>
+                 </div>
+                 <div className="text-xs font-bold text-stone-600">상속세 연부연납</div>
+              </div>
+
+              {/* Option C (Winner) */}
+              <div className="w-24 flex flex-col items-center gap-2">
+                 <div className="text-xs text-center text-emerald-600 font-bold">Best Solution</div>
+                 <div className="w-full bg-emerald-500 h-40 rounded-t-lg relative flex items-end justify-center shadow-lg transform hover:scale-105 transition-transform">
+                   <div className="absolute top-2 text-white/90 font-bold text-xs">면세 효과</div>
+                   <div className="mb-2 text-white font-black text-lg">5억</div>
+                 </div>
+                 <div className="text-xs font-black text-emerald-700">종신보험</div>
+              </div>
+           </div>
         </div>
       </div>
 
-      <div className="bg-stone-100 p-4 rounded-lg mt-6 text-sm text-stone-600 text-center">
-        * 수익자 지정은 계약 시 설정하거나, 유언 공증 등을 통해 사전에 법적 효력을 갖출 수 있습니다.
+      {/* Plan Details Table */}
+      <div className="mt-8">
+        <div className="bg-stone-800 text-white rounded-t-xl px-6 py-3 font-bold flex justify-between items-center">
+          <span>제안 설계 (Proposal)</span>
+          <span className="text-xs font-normal text-stone-300">가입설계서 기준 상세 내역</span>
+        </div>
+        <table className="w-full text-sm border-collapse">
+          <tbody className="divide-y divide-stone-200 border-x border-b border-stone-200">
+             <tr className="bg-stone-50">
+               <th className="py-3 px-4 text-left w-1/4 border-r border-stone-200">상품명</th>
+               <td className="py-3 px-4 font-bold text-emerald-900">무배당 경영인 정기보험 (또는 종신)</td>
+             </tr>
+             <tr>
+               <th className="py-3 px-4 text-left bg-stone-50 border-r border-stone-200">계약자 / 피보험자</th>
+               <td className="py-3 px-4">법인(또는 대표님) / 대표님 (62세)</td>
+             </tr>
+             <tr className="bg-stone-50">
+               <th className="py-3 px-4 text-left border-r border-stone-200">납입 기간</th>
+               <td className="py-3 px-4">10년납 / 15년납 (선택 가능)</td>
+             </tr>
+             <tr>
+               <th className="py-3 px-4 text-left bg-stone-50 border-r border-stone-200">사망 보험금</th>
+               <td className="py-3 px-4 font-black text-xl text-emerald-600">500,000,000 원</td>
+             </tr>
+             <tr className="bg-emerald-50/50">
+               <th className="py-3 px-4 text-left border-r border-stone-200 text-emerald-800 align-top pt-4">활용 방안</th>
+               <td className="py-3 px-4 space-y-1">
+                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-emerald-500"/> <strong>아들:</strong> 상속세 재원 활용 (농장 매각 방지)</div>
+                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-blue-500"/> <strong>딸:</strong> 현금 상속 재원 (유류분 분쟁 예방)</div>
+                 <div className="flex items-center gap-2"><CheckCircle2 size={14} className="text-stone-500"/> <strong>법인:</strong> 가지급금 상환 및 유족 위로금 재원</div>
+               </td>
+             </tr>
+          </tbody>
+        </table>
       </div>
 
     </div>
   </A4Page>
 );
 
-// Page 5: Solution 2 & 3
-const Solution23Page = () => (
+// Page 5: Solution 2 (Gift Strategy) - Legal & Detailed
+const Solution2_GiftPage = () => (
   <A4Page>
-     <div className="flex items-center gap-4 mb-8 border-b-2 border-emerald-100 pb-4">
-      <h2 className="text-3xl font-bold text-emerald-900">04. 2차 & 3차 솔루션</h2>
-      <span className="bg-stone-200 text-stone-600 px-3 py-1 rounded-full text-sm font-bold">증여 / 법인</span>
+    <SectionHeader number="04" title="증여세 과세특례" subtitle="Solution 2: Special Gift Tax Provisions" />
+
+    {/* Legal Basis Box */}
+    <div className="bg-stone-50 border-l-4 border-stone-400 p-4 mb-8 text-sm text-stone-700 leading-relaxed shadow-sm">
+      <span className="font-bold text-stone-900 block mb-1 flex items-center gap-2"><Landmark size={16}/> 관련 법령: 조세특례제한법 제30조의6</span>
+      "18세 이상인 거주자가 60세 이상의 부모로부터 <strong>가업승계 목적</strong>으로 주식 또는 사업용 자산을 증여받는 경우, 
+      <span className="bg-yellow-100 px-1">최대 300억원 한도 내에서 10%(과세표준 60억 초과분 20%)</span>의 특례 세율을 적용한다."
     </div>
 
-    {/* Section 2 */}
+    {/* Strategy Timeline */}
     <div className="mb-10">
-      <h3 className="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-        <div className="bg-emerald-600 text-white w-6 h-6 rounded flex items-center justify-center text-sm">2</div>
-        생전 증여 (분할 증여 플랜)
+      <h3 className="font-bold text-xl text-stone-800 mb-6 flex items-center gap-2">
+        <Calendar className="text-emerald-600"/> 최적 실행 로드맵 (Execution Timeline)
       </h3>
       
-      <div className="grid grid-cols-2 gap-6 mb-4">
-        <div className="bg-white border border-stone-200 p-5 rounded-xl shadow-sm">
-          <h4 className="font-bold text-emerald-800 mb-2">Step 1. 사전 증여 (현재)</h4>
-          <p className="text-sm text-stone-600 mb-2">
-            농지/시설 중 일부(1~1.5억)를 아들에게 증여
-          </p>
-          <div className="text-xs text-blue-600 font-medium">
-            → 아들의 책임감 고취 및 증여공제 활용
+      <div className="relative">
+        {/* Central Line */}
+        <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-stone-200"></div>
+
+        {/* Step 1 */}
+        <div className="relative pl-24 pb-8 group">
+          <div className="absolute left-0 w-16 h-16 bg-emerald-600 text-white rounded-xl flex flex-col items-center justify-center font-bold shadow-md z-10 border-4 border-white">
+            <span className="text-xs opacity-80">NOW</span>
+            <span className="text-lg">D-Day</span>
           </div>
+          <Card className="hover:border-emerald-400 transition-colors">
+            <h4 className="font-bold text-emerald-800 mb-2">1단계: 특례 증여 실행</h4>
+            <div className="grid grid-cols-2 gap-4 text-sm">
+               <div>
+                 <p className="text-stone-500 text-xs">대상 자산</p>
+                 <p className="font-bold text-stone-800">핵심 농지 및 축사 (약 15억)</p>
+               </div>
+               <div>
+                 <p className="text-stone-500 text-xs">예상 세액</p>
+                 <p className="font-bold text-emerald-600">약 1.5억 (세율 10%)</p>
+               </div>
+            </div>
+            <p className="text-xs text-stone-500 mt-2 bg-stone-50 p-2 rounded">
+              * 일반 증여 시 약 4~5억원의 세금이 발생하나, 특례 적용 시 약 70% 절세 가능
+            </p>
+          </Card>
         </div>
-        <div className="bg-white border border-stone-200 p-5 rounded-xl shadow-sm">
-          <h4 className="font-bold text-emerald-800 mb-2">Step 2. 추가 증여 (10년 후)</h4>
-          <p className="text-sm text-stone-600 mb-2">
-            증여재산 합산 배제 기간(10년) 경과 후 추가 증여
-          </p>
-          <div className="text-xs text-blue-600 font-medium">
-            → 사망 시점 상속 자산 규모 축소 효과
+
+        {/* Step 2 */}
+        <div className="relative pl-24 pb-8 group">
+          <div className="absolute left-2 top-0 w-12 h-12 bg-white border-2 border-stone-300 text-stone-500 rounded-full flex items-center justify-center font-bold z-10">
+             <span className="text-xs">5yr</span>
           </div>
+          <Card className="hover:border-stone-400 transition-colors bg-stone-50">
+            <h4 className="font-bold text-stone-800 mb-2">2단계: 사후관리 기간</h4>
+            <ul className="text-sm text-stone-600 space-y-1 list-disc list-inside">
+              <li>수증자(아들)의 가업 종사 의무 유지</li>
+              <li>자산 처분 금지 (자산 매각 시 감면 세액 추징)</li>
+              <li>매년 과세관청의 사후관리 점검 대응 (세무사 협업)</li>
+            </ul>
+          </Card>
+        </div>
+
+        {/* Step 3 */}
+        <div className="relative pl-24 group">
+           <div className="absolute left-2 top-0 w-12 h-12 bg-white border-2 border-stone-300 text-stone-500 rounded-full flex items-center justify-center font-bold z-10">
+             <span className="text-xs">Future</span>
+          </div>
+          <Card className="hover:border-blue-400 transition-colors bg-blue-50 border-blue-100">
+            <h4 className="font-bold text-blue-900 mb-2">3단계: 상속 시점 (Value Freezing)</h4>
+            <div className="flex items-center gap-4">
+               <div className="flex-1">
+                 <p className="text-xs text-blue-700 font-bold mb-1">핵심 효과</p>
+                 <p className="text-sm text-stone-700">
+                   상속 재산 합산 시 <span className="underline decoration-blue-300">증여 당시(현재) 평가액</span>인 15억으로 합산.
+                   미래 자산 가치가 30억, 50억으로 상승해도 세금은 15억 기준 정산.
+                 </p>
+               </div>
+               <div className="bg-white p-2 rounded text-center shadow-sm">
+                  <div className="text-xs text-stone-400">절세 효과</div>
+                  <div className="font-black text-xl text-blue-600">Max 10억+</div>
+               </div>
+            </div>
+          </Card>
         </div>
       </div>
-      
-      <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 flex gap-4 items-start">
-         <div className="min-w-fit mt-1">
-           <Coins size={20} className="text-blue-600" />
-         </div>
-         <div>
-           <div className="font-bold text-blue-900 text-sm">Plus Plan: 딸을 위한 저축</div>
-           <p className="text-xs text-blue-700 mt-1">
-             대표님/배우자 명의로 월 50~100만원 적립식 플랜 가입 → 향후 딸의 결혼자금이나 추가 현금 상속 재원으로 활용 (아들은 농장, 딸은 현금 원칙 강화)
-           </p>
-         </div>
+    </div>
+  </A4Page>
+);
+
+// Page 6: Solution 3 (Corporation) - Comparative Analysis
+const Solution3_CorpPage = () => (
+  <A4Page>
+    <SectionHeader number="05" title="법인 전환 & CEO 플랜" subtitle="Solution 3: Incorporation Strategy" />
+
+    {/* Comparison Table */}
+    <div className="mb-10">
+      <h3 className="font-bold text-xl text-stone-800 mb-6">개인 vs 법인 비교 분석</h3>
+      <div className="overflow-hidden border border-stone-200 rounded-xl shadow-sm">
+        <table className="w-full text-sm text-center">
+          <thead className="bg-stone-100 text-stone-800 font-bold">
+            <tr>
+              <th className="p-4 border-r border-stone-200">구분</th>
+              <th className="p-4 border-r border-stone-200 w-[35%]">개인 농가</th>
+              <th className="p-4 bg-emerald-50 text-emerald-800 w-[35%]">농업회사법인</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-stone-200 text-stone-600">
+            <tr>
+              <td className="p-4 font-bold bg-stone-50 border-r border-stone-200">세율 구조</td>
+              <td className="p-4 border-r border-stone-200">6% ~ 45% (누진세율)</td>
+              <td className="p-4 font-bold text-emerald-600 bg-white">10% ~ 20% (낮은 단일세율)</td>
+            </tr>
+            <tr>
+              <td className="p-4 font-bold bg-stone-50 border-r border-stone-200">성실신고</td>
+              <td className="p-4 border-r border-stone-200 text-red-500">대상 (검증 강화)</td>
+              <td className="p-4 text-emerald-600 bg-white">해당 없음 (자율성)</td>
+            </tr>
+            <tr>
+              <td className="p-4 font-bold bg-stone-50 border-r border-stone-200">책임 범위</td>
+              <td className="p-4 border-r border-stone-200">무한 책임 (가계 위협)</td>
+              <td className="p-4 text-emerald-600 bg-white">유한 책임 (출자 한도)</td>
+            </tr>
+            <tr>
+              <td className="p-4 font-bold bg-stone-50 border-r border-stone-200">승계 용이성</td>
+              <td className="p-4 border-r border-stone-200">부동산 등기 이전 (복잡)</td>
+              <td className="p-4 font-bold text-emerald-600 bg-white">주식 양수도 (간편/분할가능)</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
-    {/* Section 3 */}
-    <div>
-      <h3 className="text-xl font-bold text-stone-800 mb-4 flex items-center gap-2">
-        <div className="bg-stone-600 text-white w-6 h-6 rounded flex items-center justify-center text-sm">3</div>
-        농업 법인 활용 & 키맨(Key-Man) 보험
-      </h3>
-      
-      <div className="flex gap-6 items-center">
-         <div className="flex-1 bg-white border border-stone-200 rounded-xl p-5">
-            <h4 className="font-bold text-stone-700 mb-3 border-b pb-2">지분 승계 로드맵</h4>
-            <div className="space-y-4">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-stone-500">현재</span>
-                <span className="font-bold">대표님 100%</span>
+    {/* Share Structure Roadmap */}
+    <div className="grid grid-cols-2 gap-8 mb-8">
+      <Card title="지분 승계 로드맵" icon={TrendingUp}>
+         <div className="space-y-6 mt-2">
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="font-bold text-stone-500">STEP 1: 설립 시</span>
+                <span className="text-stone-400">대표 100%</span>
               </div>
-              <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
-                <div className="bg-stone-400 h-full w-full"></div>
+              <div className="h-4 bg-stone-200 rounded overflow-hidden">
+                <div className="h-full bg-stone-600 w-full"></div>
               </div>
-              <div className="flex justify-center text-stone-400">▼</div>
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-stone-500">미래</span>
-                <span className="font-bold text-emerald-600">아들 80% / 딸 20%</span>
+            </div>
+            <div className="flex justify-center"><ArrowDown size={20} className="text-stone-300"/></div>
+            <div>
+              <div className="flex justify-between text-xs mb-1">
+                <span className="font-bold text-emerald-600">STEP 2: 승계 완료</span>
+                <span className="text-stone-400">아들 70% / 딸 30%</span>
               </div>
-              <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden flex">
-                <div className="bg-emerald-500 h-full w-4/5"></div>
-                <div className="bg-blue-400 h-full w-1/5"></div>
+              <div className="h-4 bg-stone-200 rounded overflow-hidden flex">
+                <div className="h-full bg-emerald-500 w-[70%]"></div>
+                <div className="h-full bg-blue-400 w-[30%]"></div>
+              </div>
+            </div>
+            <p className="text-xs text-stone-500 bg-stone-50 p-2 rounded mt-2">
+              * 주식(지분) 형태로 자산을 유동화하여 딸에게 경영권 침해 없는 '배당권(우선주)' 부여 가능
+            </p>
+         </div>
+      </Card>
+
+      <Card title="CEO 플랜 (경영인 정기보험)" icon={ShieldCheck} className="bg-amber-50/50 border-amber-100">
+         <div className="flex flex-col justify-between h-full">
+            <p className="text-sm text-stone-700 leading-relaxed mb-4">
+              법인이 계약자가 되어 대표이사를 피보험자로 가입. 
+              납입 보험료는 <strong className="text-amber-700">손금(비용) 산입</strong>되어 법인세를 절감하고,
+              유사시 법인의 긴급 자금으로 활용합니다.
+            </p>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs">
+              <div className="bg-white p-2 rounded border border-amber-200 shadow-sm">
+                <div className="font-bold text-amber-800">법인세</div>
+                <div className="text-stone-500">절감 효과</div>
+              </div>
+              <div className="bg-white p-2 rounded border border-amber-200 shadow-sm">
+                <div className="font-bold text-amber-800">퇴직금</div>
+                <div className="text-stone-500">재원 마련</div>
+              </div>
+              <div className="bg-white p-2 rounded border border-amber-200 shadow-sm">
+                <div className="font-bold text-amber-800">유동성</div>
+                <div className="text-stone-500">리스크 헷지</div>
               </div>
             </div>
          </div>
-
-         <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-5 h-full">
-            <h4 className="font-bold text-amber-800 mb-3 flex items-center gap-2">
-              <Building size={16}/> CEO 플랜 (키맨 보험)
-            </h4>
-            <ul className="text-sm text-amber-900 space-y-3">
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="mt-1 shrink-0" />
-                <span>계약자/수익자: <strong>농업법인</strong></span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="mt-1 shrink-0" />
-                <span>유고 시 법인으로 <strong>고액의 운영자금</strong> 유입</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckCircle2 size={14} className="mt-1 shrink-0" />
-                <span>법인 대출 상환 및 유족 보상 재원 활용</span>
-              </li>
-            </ul>
-         </div>
-      </div>
+      </Card>
     </div>
   </A4Page>
 );
 
-// Page 6: Summary & Contact
+// Page 7: Summary & Action Plan
 const SummaryPage = () => (
   <A4Page>
-    <div className="flex items-center gap-4 mb-8 border-b-2 border-emerald-100 pb-4">
-      <h2 className="text-3xl font-bold text-emerald-900">05. 핵심 요약</h2>
-    </div>
+     <SectionHeader number="06" title="핵심 요약 및 실행" subtitle="Executive Summary & Action Plan" />
 
-    <div className="bg-white border-l-4 border-emerald-500 p-6 shadow-sm mb-12">
-      <h3 className="text-xl font-bold text-emerald-800 mb-6">최종 제안 4대 포인트</h3>
-      <ol className="space-y-4">
-        <li className="flex gap-4">
-          <div className="font-black text-2xl text-emerald-200">01</div>
-          <div>
-            <p className="font-bold text-lg text-stone-800">농장 사수 (매각 방지)</p>
-            <p className="text-stone-600 text-sm">아들이 상속세 때문에 농장을 파는 일 없이 100% 승계</p>
-          </div>
-        </li>
-        <li className="flex gap-4">
-          <div className="font-black text-2xl text-emerald-200">02</div>
-          <div>
-            <p className="font-bold text-lg text-stone-800">확실한 형평성</p>
-            <p className="text-stone-600 text-sm">딸에게 2~3억 수준의 현금 자산을 보장하여 분쟁 예방</p>
-          </div>
-        </li>
-        <li className="flex gap-4">
-          <div className="font-black text-2xl text-emerald-200">03</div>
-          <div>
-            <p className="font-bold text-lg text-stone-800">전문가 협업</p>
-            <p className="text-stone-600 text-sm">세무사 제휴를 통한 합법적이고 정밀한 시뮬레이션</p>
-          </div>
-        </li>
-        <li className="flex gap-4">
-          <div className="font-black text-2xl text-emerald-200">04</div>
-          <div>
-            <p className="font-bold text-lg text-stone-800">종합 안전장치</p>
-            <p className="text-stone-600 text-sm">종신보험 + 증여 + 법인 제도를 융합한 최적의 설계</p>
-          </div>
-        </li>
-      </ol>
-    </div>
+     {/* Summary Cards */}
+     <div className="grid grid-cols-2 gap-6 mb-12">
+       <Card className="bg-emerald-600 text-white border-none shadow-lg">
+         <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
+           <Tractor className="text-emerald-200"/> 농장 승계
+         </h3>
+         <p className="text-emerald-100 leading-relaxed">
+           후계자(아들)에게 농업용 자산 100%를 온전히 승계하여, 
+           가업의 연속성을 보장하고 농지 쪼개기나 매각을 원천 방지합니다.
+         </p>
+       </Card>
+       <Card className="bg-stone-800 text-white border-none shadow-lg">
+         <h3 className="font-bold text-xl mb-4 flex items-center gap-2">
+           <Coins className="text-stone-400"/> 재정 안정
+         </h3>
+         <p className="text-stone-300 leading-relaxed">
+           상속세 납부 재원과 비후계자(딸) 보상 재원을 사전에 마련하여,
+           가족 간의 법적 분쟁 리스크를 0%로 만듭니다.
+         </p>
+       </Card>
+     </div>
 
-    <div className="border-t border-stone-200 pt-8 mt-auto">
-      <div className="flex gap-8 items-center bg-stone-800 text-white p-8 rounded-2xl">
-        <div className="w-32 h-32 bg-stone-600 rounded-full overflow-hidden shrink-0 border-4 border-stone-500">
-           <img src="https://picsum.photos/200/200?grayscale" alt="Planner" className="w-full h-full object-cover" />
-        </div>
-        <div>
-          <h3 className="text-2xl font-bold mb-1">{PLANNER.name} 플래너</h3>
-          <p className="text-emerald-400 font-medium mb-4">{PLANNER.position} | {PLANNER.company}</p>
-          <div className="text-sm text-stone-300 space-y-1 mb-6">
-            {PLANNER.specialty.map((spec, i) => (
-              <p key={i}>• {spec}</p>
-            ))}
-          </div>
-          <div className="text-xl font-bold flex items-center gap-2">
-            <Phone className="w-5 h-5" /> {PLANNER.phone}
-          </div>
-        </div>
-      </div>
-      <div className="mt-8 text-center px-8">
-        <p className="font-serif italic text-lg text-stone-600 leading-relaxed">
-          "저는 단순히 보험만 권유드리는 사람이 아닙니다.<br/>
-          대표님께서 평생 피땀 흘려 일궈오신 농장이 아드님에게 안전하게 이어지고,<br/>
-          따님과 배우자분까지 공정하고 든든하게 보호받을 수 있도록<br/>
-          <strong className="text-emerald-700">가족 전체의 미래를 함께 설계하는 파트너</strong>가 되고자 합니다."
-        </p>
-      </div>
-    </div>
+     {/* Action Checklist */}
+     <div className="bg-white border-t-4 border-stone-800 p-8 shadow-xl rounded-b-xl">
+       <h3 className="font-bold text-2xl text-stone-900 mb-6">Action Plan Checklist</h3>
+       
+       <div className="space-y-4">
+         {[
+           { step: "Step 1", text: "상속 증여 전문 세무사 미팅 (정밀 시뮬레이션)", checked: true },
+           { step: "Step 2", text: "감정평가 진행 (현재 자산 가치 확정)", checked: false },
+           { step: "Step 3", text: "농업 경영체 등록 변경 및 특례 증여 신고", checked: false },
+           { step: "Step 4", text: "법인 정관 정비 및 등기 (법인 전환 시)", checked: false },
+           { step: "Step 5", text: "CEO 플랜(종신보험) 청약 및 수익자 지정", checked: false },
+         ].map((item, i) => (
+           <div key={i} className="flex items-center gap-4 p-3 hover:bg-stone-50 rounded transition-colors border-b border-stone-100 last:border-0">
+              <div className={`font-bold text-sm ${item.checked ? 'text-emerald-600' : 'text-stone-400'}`}>{item.step}</div>
+              <div className={`w-6 h-6 rounded border-2 flex items-center justify-center ${item.checked ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-stone-300'}`}>
+                {item.checked && <CheckCircle2 size={16} />}
+              </div>
+              <div className={`flex-1 font-medium ${item.checked ? 'text-stone-800 line-through decoration-emerald-500' : 'text-stone-700'}`}>
+                {item.text}
+              </div>
+           </div>
+         ))}
+       </div>
+     </div>
+     
+     <div className="mt-12 text-center">
+       <p className="text-stone-500 text-sm mb-2">위 제안 내용은 기초 상담을 위한 가안이며, 실제 실행 시 세법 변경 등에 따라 달라질 수 있습니다.</p>
+       <div className="font-serif italic text-2xl text-stone-800">
+         "대표님의 평생 땀방울이<br/>가장 가치 있게 이어지도록 돕겠습니다."
+       </div>
+       <div className="mt-6">
+         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Signature_sample.svg/1200px-Signature_sample.svg.png" alt="Signature" className="h-12 mx-auto opacity-50" />
+       </div>
+     </div>
   </A4Page>
 );
 
 export const Portfolio = () => {
   return (
-    <div className="w-full flex flex-col items-center py-8">
+    <div className="w-full flex flex-col items-center py-8 bg-stone-100 gap-8">
       <CoverPage />
       <DiagnosisPage />
       <GoalsPage />
       <Solution1Page />
-      <Solution23Page />
+      <Solution2_GiftPage />
+      <Solution3_CorpPage />
       <SummaryPage />
     </div>
   );
