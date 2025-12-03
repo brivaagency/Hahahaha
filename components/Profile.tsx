@@ -62,7 +62,7 @@ export const Profile = () => {
           {/* Footer Quote */}
           <div className="bg-stone-50 p-6 text-center border-t border-stone-200">
             <p className="italic font-serif text-stone-600 text-sm">
-              "젖소 농장은 하루도 멈출 수 없는 사업입니다.<br/>
+              "양돈 농장은 하루도 멈출 수 없는 사업입니다.<br/>
               갑작스러운 상황에도 농장과 가족이 흔들리지 않도록,<br/>
               가업승계·상속·절세까지 함께 설계해 드립니다."
             </p>

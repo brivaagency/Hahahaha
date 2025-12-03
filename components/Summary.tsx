@@ -15,7 +15,7 @@ export const Summary = () => {
         {/* Header */}
         <div className="border-b-4 border-emerald-600 pb-4 mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-2xl font-bold text-stone-900">젖소농가 가업승계·절세 핵심 요약</h1>
+            <h1 className="text-2xl font-bold text-stone-900">양돈농가 가업승계·절세 핵심 요약</h1>
             <p className="text-sm text-stone-500 mt-1">플래너 상담용 요약 스크립트</p>
           </div>
           <div className="text-right">
@@ -30,13 +30,13 @@ export const Summary = () => {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="bg-white border border-stone-200 p-3 rounded">
               <span className="block font-bold text-stone-700 mb-1">자산 구성 (18억)</span>
-              부동산 12억 / 소·기계 3억 / 금융 3억<br/>
-              <span className="text-red-500 text-xs">→ 유동성 부족 (현금 1억 불과)</span>
+              토지/돈사 12억 / 돼지/시설 3억 / 금융 3억<br/>
+              <span className="text-red-500 text-xs">→ 유동성 부족 (대부분 농장 자산)</span>
             </div>
             <div className="bg-white border border-stone-200 p-3 rounded">
               <span className="block font-bold text-stone-700 mb-1">가족 니즈</span>
-              아들: 농장 100% 승계<br/>
-              딸: 섭섭하지 않은 현금 보상
+              아들: 양돈 농장 100% 승계 희망<br/>
+              딸: 공평한 수준의 현금 보상
             </div>
           </div>
         </div>
@@ -50,21 +50,21 @@ export const Summary = () => {
               <div className="min-w-[4rem] font-bold text-emerald-700 pt-1">Solution 1</div>
               <div>
                 <p className="font-bold text-stone-800">종신보험 5억 플랜</p>
-                <p className="text-sm text-stone-600">아들(2억) 상속세 재원 + 딸(3억) 현금 상속 재원 동시 마련</p>
+                <p className="text-sm text-stone-600">아들(2억) 상속세/운영비 + 딸(3억) 현금 상속 재원 동시 마련</p>
               </div>
             </div>
             <div className="flex items-start gap-3 border-l-4 border-stone-400 pl-3 py-1">
               <div className="min-w-[4rem] font-bold text-stone-600 pt-1">Solution 2</div>
               <div>
-                <p className="font-bold text-stone-800">단계별 증여</p>
-                <p className="text-sm text-stone-600">현재 농지 일부 증여 → 10년 후 2차 증여 (상속 자산 축소)</p>
+                <p className="font-bold text-stone-800">생전 분할 증여</p>
+                <p className="text-sm text-stone-600">현재부터 농지/돈사 일부 증여 → 10년 후 2차 증여 (상속 자산 축소)</p>
               </div>
             </div>
             <div className="flex items-start gap-3 border-l-4 border-stone-400 pl-3 py-1">
               <div className="min-w-[4rem] font-bold text-stone-600 pt-1">Solution 3</div>
               <div>
                 <p className="font-bold text-stone-800">법인 전환 & CEO 플랜</p>
-                <p className="text-sm text-stone-600">지분 승계(아들 경영권) + 법인 명의 보험으로 운영 리스크 헷지</p>
+                <p className="text-sm text-stone-600">지분 구조 활용(아들 경영/딸 지분) + 법인 보험으로 리스크 헷지</p>
               </div>
             </div>
           </div>
