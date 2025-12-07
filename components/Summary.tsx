@@ -15,7 +15,7 @@ export const Summary = () => {
         {/* Header */}
         <div className="border-b-4 border-emerald-600 pb-4 mb-8 flex justify-between items-end">
           <div>
-            <h1 className="text-2xl font-bold text-stone-900">양돈농가 가업승계·절세 핵심 요약</h1>
+            <h1 className="text-2xl font-bold text-stone-900">양계농가 가업승계·절세 핵심 요약</h1>
             <p className="text-sm text-stone-500 mt-1">플래너 상담용 요약 스크립트</p>
           </div>
           <div className="text-right">
@@ -30,12 +30,12 @@ export const Summary = () => {
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="bg-white border border-stone-200 p-3 rounded">
               <span className="block font-bold text-stone-700 mb-1">자산 구성 (18억)</span>
-              토지/돈사 12억 / 돼지/시설 3억 / 금융 3억<br/>
+              토지/계사 12억 / 산란계/시설 3억 / 금융 3억<br/>
               <span className="text-red-500 text-xs">→ 유동성 부족 (대부분 농장 자산)</span>
             </div>
             <div className="bg-white border border-stone-200 p-3 rounded">
               <span className="block font-bold text-stone-700 mb-1">가족 니즈</span>
-              아들: 양돈 농장 100% 승계 희망<br/>
+              아들: 양계 농장 100% 승계 희망<br/>
               딸: 공평한 수준의 현금 보상
             </div>
           </div>
@@ -57,7 +57,7 @@ export const Summary = () => {
               <div className="min-w-[4rem] font-bold text-stone-600 pt-1">Solution 2</div>
               <div>
                 <p className="font-bold text-stone-800">생전 분할 증여</p>
-                <p className="text-sm text-stone-600">현재부터 농지/돈사 일부 증여 → 10년 후 2차 증여 (상속 자산 축소)</p>
+                <p className="text-sm text-stone-600">현재부터 농지/계사 일부 증여 → 10년 후 2차 증여 (상속 자산 축소)</p>
               </div>
             </div>
             <div className="flex items-start gap-3 border-l-4 border-stone-400 pl-3 py-1">

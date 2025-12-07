@@ -22,7 +22,7 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Layout className="text-emerald-400" />
-            <span className="font-bold text-lg">DairyPlan Pro</span>
+            <span className="font-bold text-lg">PoultryPlan Pro</span>
           </div>
 
           <div className="flex gap-2">

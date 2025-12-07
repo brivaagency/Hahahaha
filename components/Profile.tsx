@@ -12,9 +12,9 @@ export const Profile = () => {
           {/* Top Image Section */}
           <div className="h-48 bg-emerald-800 relative">
             <img 
-              src="https://picsum.photos/800/400?grayscale" 
+              src="https://images.unsplash.com/photo-1570566412574-842279149021?q=80&w=2070&auto=format&fit=crop" 
               alt="Background" 
-              className="w-full h-full object-cover opacity-30" 
+              className="w-full h-full object-cover opacity-40" 
             />
             <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
               <div className="w-32 h-32 rounded-full border-4 border-white bg-stone-300 overflow-hidden shadow-lg">
@@ -62,8 +62,8 @@ export const Profile = () => {
           {/* Footer Quote */}
           <div className="bg-stone-50 p-6 text-center border-t border-stone-200">
             <p className="italic font-serif text-stone-600 text-sm">
-              "양돈 농장은 하루도 멈출 수 없는 사업입니다.<br/>
-              갑작스러운 상황에도 농장과 가족이 흔들리지 않도록,<br/>
+              "AI 발생과 시세 변동 등 예측 불가능한 양계 환경 속에서,<br/>
+              농장과 가족의 미래가 흔들리지 않도록<br/>
               가업승계·상속·절세까지 함께 설계해 드립니다."
             </p>
           </div>
